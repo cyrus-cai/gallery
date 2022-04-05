@@ -1,13 +1,20 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
 
-type Data = {
-  name: string
+// Want to use async/await? Add the `async` keyword to your outer function/method.
+const gethitokoto = async () => {
+  await axios(
+    {
+      method: 'get',
+      url: 'https://v1.hitokoto.cn/',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then((response) => {
+    console.log(response.data.hitokoto)
+    const hitokoto = document.getElementById('hitokoto_text')
+    hitokoto!.innerText = response.data.hitokoto
+  })
 }
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
-}
+export default gethitokoto
